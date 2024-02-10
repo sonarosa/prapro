@@ -10,15 +10,16 @@ end_time = time.time()
 elapsed_time = end_time - start_time
 print("Time taken to create the array:", elapsed_time, "seconds")
 
+random_dtype = random_array.dtype
+random_shape = random_array.shape
 random_bytes = random_array.tobytes()
 
-
-r2 = np.frombuffer(random_bytes, dtype=random_array.dtype)
-r2 = r2.reshape(random_array.shape)  
+r2 = np.frombuffer(random_bytes, dtype=random_dtype)
+r2 = r2.reshape(random_shape)  
 
 print("After loading, content of the recreated array:")
 print(r2)
 
-tolerance = 1e-6  
-are_equal = np.allclose(random_array, r2, atol=tolerance)
-print("Are both arrays equal?", are_equal)
+np.testing.assert_array_equal(random_array, r2)
+print("Arrays are equal.")
+
